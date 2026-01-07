@@ -13,8 +13,51 @@ class Paso
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?int $orden = null;
+
+    #[ORM\Column(length: 500)]
+    private ?string $descripcion = null;
+
+    #[ORM\ManyToOne(inversedBy: 'pasos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Receta $receta = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getOrden(): ?int
+    {
+        return $this->orden;
+    }
+
+    public function setOrden(int $orden): static
+    {
+        $this->orden = $orden;
+        return $this;
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(string $descripcion): static
+    {
+        $this->descripcion = $descripcion;
+        return $this;
+    }
+
+    public function getReceta(): ?Receta
+    {
+        return $this->receta;
+    }
+
+    public function setReceta(?Receta $receta): static
+    {
+        $this->receta = $receta;
+        return $this;
     }
 }
