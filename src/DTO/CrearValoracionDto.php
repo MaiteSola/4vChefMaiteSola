@@ -1,0 +1,16 @@
+<?php
+
+namespace App\DTO;
+
+use Symfony\Component\Validator\Constraints as Assert;
+
+class CrearValoracionDto
+{
+    #[Assert\NotBlank(message: "La puntuación es obligatoria")]
+    #[Assert\Range(
+        min: 0, 
+        max: 5, 
+        notInRangeMessage: "La puntuación debe estar entre {{ min }} y {{ max }}"
+    )]
+    public int $puntuacion;
+}

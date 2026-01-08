@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\IngredienteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: IngredienteRepository::class)]
 class Ingrediente
@@ -11,15 +13,22 @@ class Ingrediente
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['receta:leer'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['receta:leer'])]
+    #[SerializedName('name')]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['receta:leer'])]
+    #[SerializedName('quantity')]
     private ?string $cantidad = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['receta:leer'])]
+    #[SerializedName('unit')]
     private ?string $unidad = null; // Ej: pizcas, ml
 
     #[ORM\ManyToOne(inversedBy: 'ingredientes')]

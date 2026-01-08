@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PasoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: PasoRepository::class)]
 class Paso
@@ -11,12 +13,17 @@ class Paso
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['receta:leer'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['receta:leer'])]
+    #[SerializedName('order')]
     private ?int $orden = null;
 
     #[ORM\Column(length: 500)]
+    #[Groups(['receta:leer'])]
+    #[SerializedName('description')]
     private ?string $descripcion = null;
 
     #[ORM\ManyToOne(inversedBy: 'pasos')]

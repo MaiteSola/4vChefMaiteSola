@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\RecetaNutrienteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: RecetaNutrienteRepository::class)]
 class RecetaNutriente
@@ -11,18 +13,25 @@ class RecetaNutriente
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['receta:leer'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['receta:leer'])]
+    #[SerializedName('quantity')]
     private ?float $cantidad = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'recetaNutrientes')]
     #[ORM\JoinColumn(nullable: false)]
+    // SIN GROUPS AQUÍ
     private ?Receta $receta = null;
 
+    // --- CAMBIO PRINCIPAL AQUÍ ---
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?TipoNutriente $nutriente = null;
+    #[Groups(['receta:leer'])]
+    #[SerializedName('type')]
+    private ?TipoNutriente $tipoNutriente = null; // Apunta a la clase correcta
 
     public function getId(): ?int
     {
@@ -53,14 +62,15 @@ class RecetaNutriente
         return $this;
     }
 
-    public function getNutriente(): ?TipoNutriente
+    // --- GETTERS Y SETTERS ACTUALIZADOS ---
+    public function getTipoNutriente(): ?TipoNutriente
     {
-        return $this->nutriente;
+        return $this->tipoNutriente;
     }
 
-    public function setNutriente(?TipoNutriente $nutriente): static
+    public function setTipoNutriente(?TipoNutriente $tipoNutriente): static
     {
-        $this->nutriente = $nutriente;
+        $this->tipoNutriente = $tipoNutriente;
 
         return $this;
     }
