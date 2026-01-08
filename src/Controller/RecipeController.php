@@ -21,7 +21,7 @@ use App\Entity\Valoracion;
 
 
 #[Route('/recipes', name: 'api_recipes_')]
-class RecetaController extends AbstractController
+class RecipeController extends AbstractController
 {
     // =========================================================================
     // GET /recipes - Listar recetas (con filtro opcional por tipo)
@@ -38,7 +38,7 @@ class RecetaController extends AbstractController
         if ($typeId) {
             $tipo = $tipoRepo->find($typeId);
             if (!$tipo) {
-                return $this->json(['code' => 400, 'description' => 'Recipe type not found'], 400);
+                return $this->json(['code' => 400, 'description' => 'Tipo de receta no encontrado'], 400);
             }
 
             $recetas = $recetaRepo->findBy([
@@ -65,7 +65,7 @@ class RecetaController extends AbstractController
         // Validar que el tipo de receta existe
         $tipo = $tipoRepo->find($dto->tipoId);
         if (!$tipo) {
-            return $this->json(['code' => 400, 'description' => 'Recipe type does not exist'], 400);
+            return $this->json(['code' => 400, 'description' => "El tipo de receta con ID {$dto->tipoId} no existe."], 400);
         }
 
         // Crear la receta
@@ -78,7 +78,7 @@ class RecetaController extends AbstractController
         foreach ($dto->ingredientes as $ingDto) {
             $ingrediente = new Ingrediente();
             $ingrediente->setNombre($ingDto->nombre);
-            $ingrediente->setCantidad($ingDto->cantidad);
+            $ingrediente->setCantidad((string)$ingDto->cantidad);
             $ingrediente->setUnidad($ingDto->unidad);
             $receta->addIngrediente($ingrediente);
         }
@@ -122,13 +122,13 @@ class RecetaController extends AbstractController
     ): JsonResponse {
         // Validar que la puntuación esté entre 0 y 5
         if ($rate < 0 || $rate > 5) {
-            return $this->json(['code' => 400, 'description' => 'Rating must be between 0 and 5'], 400);
+            return $this->json(['code' => 400, 'description' => 'La puntuación debe estar entre 0 y 5'], 400);
         }
 
         // Buscar la receta
         $receta = $recetaRepo->find($recipeId);
         if (!$receta || $receta->getDeletedAt() !== null) {
-            return $this->json(['code' => 400, 'description' => 'Recipe not found'], 400);
+            return $this->json(['code' => 400, 'description' => 'Receta no encontrada'], 400);
         }
 
         // Obtener IP
@@ -141,7 +141,7 @@ class RecetaController extends AbstractController
         ]);
 
         if ($votoExistente) {
-            return $this->json(['code' => 400, 'description' => 'You have already rated this recipe'], 400);
+            return $this->json(['code' => 400, 'description' => 'Ya has valorado esta receta'], 400);
         }
 
         // Crear valoración
@@ -168,7 +168,7 @@ class RecetaController extends AbstractController
         $receta = $recetaRepo->find($recipeId);
 
         if (!$receta || $receta->getDeletedAt() !== null) {
-            return $this->json(['code' => 400, 'description' => 'Recipe not found or already deleted'], 400);
+            return $this->json(['code' => 400, 'description' => 'Receta no encontrada o ya eliminada'], 400);
         }
 
         $receta->setDeletedAt(new \DateTimeImmutable());

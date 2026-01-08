@@ -8,9 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CrearRecetaDto
 {
     #[Assert\NotBlank(message: "El título es obligatorio")]
-    #[Assert\Length(min: 3, max: 100)]
+    #[Assert\Length(min: 3, max: 100, minMessage: "El título es muy corto", maxMessage: "El título es muy largo")]
+    #[Assert\Type(type: 'string', message: "El título debe ser un texto.")]
     #[SerializedName('title')]
-    public string $titulo;
+    public mixed $titulo;
 
     #[Assert\NotBlank]
     #[Assert\Positive(message: "Debe haber al menos 1 comensal")]
