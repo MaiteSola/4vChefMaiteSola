@@ -37,7 +37,7 @@ curl http://localhost:8000/recipes?type=1
       {
         "id": 1,
         "name": "Sugar",
-        "quantity": "250.5",
+        "quantity": 250.5,
         "unit": "gr"
       }
     ],
@@ -81,12 +81,12 @@ curl -X POST http://localhost:8000/recipes \
     "ingredients": [
       {
         "name": "Sugar",
-        "quantity": "250.5",
+        "quantity": 250.5,
         "unit": "gr"
       },
       {
         "name": "Eggs",
-        "quantity": "3",
+        "quantity": 3,
         "unit": "units"
       }
     ],
@@ -356,10 +356,11 @@ curl http://localhost:8000/nutrient-types
 
 1. ✅ **Todos los nombres usan kebab-case** (con guiones): `number-diner`, `type-id`, `rating-avg`
 2. ✅ **Los IDs son integers** en el YAML pero PHP los maneja como int
-3. ✅ **Rating se calcula automáticamente** basado en las valoraciones existentes
-4. ✅ **Soft delete**: Las recetas eliminadas se marcan con `deletedAt` pero no se borran físicamente
-5. ✅ **Validación IP**: Solo puedes votar una vez por receta (por IP)
-6. ✅ **Puntuaciones**: De 0 a 5 estrellas
+3. ✅ **`quantity` es de tipo number (float)**: En ingredientes y nutrientes, `quantity` se envía y recibe como número decimal (ej: 250.5, no "250.5"), conforme al YAML que especifica `type: number`
+4. ✅ **Rating se calcula automáticamente** basado en las valoraciones existentes
+5. ✅ **Soft delete**: Las recetas eliminadas se marcan con `deletedAt` pero no se borran físicamente
+6. ✅ **Validación IP**: Solo puedes votar una vez por receta (por IP)
+7. ✅ **Puntuaciones**: De 0 a 5 estrellas
 
 ---
 

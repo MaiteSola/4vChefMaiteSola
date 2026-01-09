@@ -109,6 +109,7 @@ Marca cada punto al verificarlo:
 
 - [ ] Los campos numéricos de salida usan kebab-case (`number-diner`, `rating-avg`)
 - [ ] Los ingredientes tienen: `name`, `quantity`, `unit`
+- [ ] **IMPORTANTE**: `quantity` aparece como **número** (250.5) y NO como string ("250.5")
 - [ ] Los pasos tienen: `order`, `description`
 - [ ] Los nutrientes tienen: `id`, `type`, `quantity`
 - [ ] Existe el campo `rating` con `number-votes` y `rating-avg`
@@ -198,7 +199,7 @@ Si quieres cambiar el puerto o host:
     {
       "id": 1,
       "name": "Azúcar",
-      "quantity": "250",
+      "quantity": 250,
       "unit": "gr"
     }
   ],
