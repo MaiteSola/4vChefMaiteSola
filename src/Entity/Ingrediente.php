@@ -21,10 +21,10 @@ class Ingrediente
     #[SerializedName('name')]
     private ?string $nombre = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(type: 'float')]
     #[Groups(['receta:leer'])]
     #[SerializedName('quantity')]
-    private ?string $cantidad = null;
+    private ?float $cantidad = null;
 
     #[ORM\Column(length: 20)]
     #[Groups(['receta:leer'])]
@@ -52,12 +52,12 @@ class Ingrediente
         return $this;
     }
 
-    public function getCantidad(): ?string
+    public function getCantidad(): ?float
     {
         return $this->cantidad;
     }
 
-    public function setCantidad(string $cantidad): static
+    public function setCantidad(float $cantidad): static
     {
         $this->cantidad = $cantidad;
 

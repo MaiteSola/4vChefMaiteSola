@@ -78,7 +78,7 @@ class RecipeController extends AbstractController
         foreach ($dto->ingredientes as $ingDto) {
             $ingrediente = new Ingrediente();
             $ingrediente->setNombre($ingDto->nombre);
-            $ingrediente->setCantidad((string)$ingDto->cantidad);
+            $ingrediente->setCantidad($ingDto->cantidad);
             $ingrediente->setUnidad($ingDto->unidad);
             $receta->addIngrediente($ingrediente);
         }
