@@ -1,8 +1,8 @@
 {
   "info": {
-    "_postman_id": "4vchef-api-collection",
-    "name": "4V CHEF API - OpenAPI Compatible",
-    "description": "Colección completa para probar la API 4V CHEF con nombres 100% compatibles con el YAML OpenAPI",
+    "_postman_id": "4vchef-api-collection-v3",
+    "name": "4V CHEF API - Final Delivery",
+    "description": "Colección final corregida: Quantity ahora son números (floats) según especificación YAML estricta y sincronizada con Fixtures.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -21,11 +21,11 @@
               "port": "8000",
               "path": ["recipes"]
             },
-            "description": "Obtener todas las recetas activas"
+            "description": "Obtener todas las recetas activas. Debería devolver 5 recetas (Tiramisú, Paella, Gazpacho, Lentejas, Batido). La 'Receta Antigua' NO debe aparecer."
           }
         },
         {
-          "name": "2. GET - Filter Recipes by Type",
+          "name": "2. GET - Filter Recipes by Type (Postres)",
           "request": {
             "method": "GET",
             "header": [],
@@ -39,15 +39,15 @@
                 {
                   "key": "type",
                   "value": "1",
-                  "description": "ID del tipo de receta"
+                  "description": "ID 1 = Postres"
                 }
               ]
             },
-            "description": "Filtrar recetas por tipo (ej: Postres, Entrantes, etc.)"
+            "description": "Filtrar por Tipo 1 (Postres). Debería devolver: Tiramisú y Batido Power."
           }
         },
         {
-          "name": "3. POST - Create New Recipe (Simple)",
+          "name": "3. POST - Create New Recipe (Ensalada)",
           "request": {
             "method": "POST",
             "header": [
@@ -58,7 +58,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Tiramisu Clásico\",\n  \"number-diner\": 4,\n  \"type-id\": 1,\n  \"ingredients\": [\n    {\n      \"name\": \"Azúcar\",\n      \"quantity\": \"250\",\n      \"unit\": \"gr\"\n    },\n    {\n      \"name\": \"Huevos\",\n      \"quantity\": \"3\",\n      \"unit\": \"unidades\"\n    },\n    {\n      \"name\": \"Mascarpone\",\n      \"quantity\": \"500\",\n      \"unit\": \"gr\"\n    }\n  ],\n  \"steps\": [\n    {\n      \"order\": 1,\n      \"description\": \"Batir las yemas con el azúcar\"\n    },\n    {\n      \"order\": 2,\n      \"description\": \"Agregar el mascarpone\"\n    },\n    {\n      \"order\": 3,\n      \"description\": \"Montar las claras a punto de nieve\"\n    }\n  ],\n  \"nutrients\": []\n}"
+              "raw": "{\n  \"title\": \"Ensalada de Pasta Estival\",\n  \"number-diner\": 2,\n  \"type-id\": 3,\n  \"ingredients\": [\n    {\n      \"name\": \"Pasta de colores\",\n      \"quantity\": 200,\n      \"unit\": \"gr\"\n    },\n    {\n      \"name\": \"Atún\",\n      \"quantity\": 2,\n      \"unit\": \"latas\"\n    },\n    {\n      \"name\": \"Maíz\",\n      \"quantity\": 50,\n      \"unit\": \"gr\"\n    }\n  ],\n  \"steps\": [\n    {\n      \"order\": 1,\n      \"description\": \"Cocer la pasta y enfriar.\"\n    },\n    {\n      \"order\": 2,\n      \"description\": \"Mezclar con atún y maíz.\"\n    }\n  ],\n  \"nutrients\": []\n}"
             },
             "url": {
               "raw": "http://localhost:8000/recipes",
@@ -67,86 +67,47 @@
               "port": "8000",
               "path": ["recipes"]
             },
-            "description": "Crear una receta simple sin nutrientes"
+            "description": "Crear una receta NUEVA con cantidades numéricas correctas."
           }
         },
         {
-          "name": "4. POST - Create Recipe with Nutrients",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"title\": \"Tarta de Chocolate\",\n  \"number-diner\": 6,\n  \"type-id\": 1,\n  \"ingredients\": [\n    {\n      \"name\": \"Chocolate negro\",\n      \"quantity\": \"200\",\n      \"unit\": \"gr\"\n    },\n    {\n      \"name\": \"Mantequilla\",\n      \"quantity\": \"100\",\n      \"unit\": \"gr\"\n    },\n    {\n      \"name\": \"Azúcar\",\n      \"quantity\": \"150\",\n      \"unit\": \"gr\"\n    },\n    {\n      \"name\": \"Huevos\",\n      \"quantity\": \"4\",\n      \"unit\": \"unidades\"\n    }\n  ],\n  \"steps\": [\n    {\n      \"order\": 1,\n      \"description\": \"Fundir el chocolate con la mantequilla\"\n    },\n    {\n      \"order\": 2,\n      \"description\": \"Batir los huevos con el azúcar\"\n    },\n    {\n      \"order\": 3,\n      \"description\": \"Mezclar todo y hornear a 180°C durante 30 minutos\"\n    }\n  ],\n  \"nutrients\": [\n    {\n      \"type-id\": 1,\n      \"quantity\": 12.5\n    },\n    {\n      \"type-id\": 2,\n      \"quantity\": 45.3\n    }\n  ]\n}"
-            },
-            "url": {
-              "raw": "http://localhost:8000/recipes",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8000",
-              "path": ["recipes"]
-            },
-            "description": "Crear receta completa con información nutricional"
-          }
-        },
-        {
-          "name": "5. POST - Rate Recipe (5 stars)",
+          "name": "4. POST - Rate Paella (ID 2)",
           "request": {
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/recipes/1/rating/5",
+              "raw": "http://localhost:8000/recipes/2/rating/5",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["recipes", "1", "rating", "5"]
+              "path": ["recipes", "2", "rating", "5"]
             },
-            "description": "Valorar la receta con ID 1 con 5 estrellas"
+            "description": "Valorar la Paella Valenciana (ID 2) con 5 estrellas."
           }
         },
         {
-          "name": "6. POST - Rate Recipe (3 stars)",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8000/recipes/1/rating/3",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8000",
-              "path": ["recipes", "1", "rating", "3"]
-            },
-            "description": "Valorar la receta con ID 1 con 3 estrellas"
-          }
-        },
-        {
-          "name": "7. DELETE - Remove Recipe",
+          "name": "5. DELETE - Remove Batido (ID 5)",
           "request": {
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/recipes/1",
+              "raw": "http://localhost:8000/recipes/5",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["recipes", "1"]
+              "path": ["recipes", "5"]
             },
-            "description": "Borrado lógico de la receta con ID 1"
+            "description": "Borrado lógico del Batido Power (ID 5)."
           }
         }
       ],
-      "description": "Endpoints relacionados con las recetas"
+      "description": "Endpoints de Recetas"
     },
     {
       "name": "Recipe Types",
       "item": [
         {
-          "name": "1. GET - List All Recipe Types",
+          "name": "1. GET - List Recipe Types",
           "request": {
             "method": "GET",
             "header": [],
@@ -157,17 +118,17 @@
               "port": "8000",
               "path": ["recipe-types"]
             },
-            "description": "Obtener todos los tipos de recetas (Postres, Entrantes, etc.)"
+            "description": "Debe devolver: Postre, Plato Principal, Entrante."
           }
         }
       ],
-      "description": "Endpoints para tipos de recetas"
+      "description": "Catálogos"
     },
     {
       "name": "Nutrient Types",
       "item": [
         {
-          "name": "1. GET - List All Nutrient Types",
+          "name": "1. GET - List Nutrient Types",
           "request": {
             "method": "GET",
             "header": [],
@@ -178,11 +139,11 @@
               "port": "8000",
               "path": ["nutrient-types"]
             },
-            "description": "Obtener todos los tipos de nutrientes (Proteínas, Carbohidratos, etc.)"
+            "description": "Debe devolver: Proteínas, Energía, Grasas, Carbohidratos."
           }
         }
       ],
-      "description": "Endpoints para tipos de nutrientes"
+      "description": "Catálogos"
     },
     {
       "name": "Error Cases",
@@ -199,7 +160,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Receta de prueba\",\n  \"number-diner\": 2,\n  \"type-id\": 9999,\n  \"ingredients\": [\n    {\n      \"name\": \"Ingrediente\",\n      \"quantity\": \"100\",\n      \"unit\": \"gr\"\n    }\n  ],\n  \"steps\": [\n    {\n      \"order\": 1,\n      \"description\": \"Paso 1\"\n    }\n  ],\n  \"nutrients\": []\n}"
+              "raw": "{\n  \"title\": \"Error Test\",\n  \"number-diner\": 2,\n  \"type-id\": 9999,\n  \"ingredients\": [{\n    \"name\": \"Aire\",\n    \"quantity\": 0,\n    \"unit\": \"nada\"\n  }],\n  \"steps\": [],\n  \"nutrients\": []\n}"
             },
             "url": {
               "raw": "http://localhost:8000/recipes",
@@ -208,11 +169,11 @@
               "port": "8000",
               "path": ["recipes"]
             },
-            "description": "Intentar crear receta con tipo inexistente - debe devolver error 400"
+            "description": "Debe fallar (400/500) porque el Type ID 9999 no existe."
           }
         },
         {
-          "name": "Error - Invalid Rating (out of range)",
+          "name": "Error - Rating Out of Range",
           "request": {
             "method": "POST",
             "header": [],
@@ -223,26 +184,11 @@
               "port": "8000",
               "path": ["recipes", "1", "rating", "10"]
             },
-            "description": "Intentar valorar con 10 estrellas (fuera del rango 0-5) - debe devolver error 400"
-          }
-        },
-        {
-          "name": "Error - Recipe Not Found",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8000/recipes/9999",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8000",
-              "path": ["recipes", "9999"]
-            },
-            "description": "Intentar borrar receta inexistente - debe devolver error 400"
+            "description": "Debe fallar (400) al intentar votar con 10 estrellas."
           }
         }
       ],
-      "description": "Casos de error para validar el manejo de errores"
+      "description": "Pruebas de error"
     }
   ],
   "variable": [

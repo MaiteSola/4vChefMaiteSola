@@ -7,8 +7,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PasoDto
 {
-    #[Assert\NotBlank]
-    #[Assert\Positive]
+    #[Assert\NotBlank(message: "El orden es obligatorio")]
+    #[Assert\Positive(message: "El orden debe ser un número positivo")]
     #[SerializedName('order')]
     public int $orden;
 

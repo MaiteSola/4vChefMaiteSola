@@ -13,7 +13,7 @@ class CrearRecetaDto
     #[SerializedName('title')]
     public mixed $titulo;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "El número de comensales es obligatorio")]
     #[Assert\Positive(message: "Debe haber al menos 1 comensal")]
     #[SerializedName('number-diner')]
     public int $comensales;

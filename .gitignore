@@ -9,6 +9,4 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-###> testing ###
-/tests/
-###< testing ###
+

@@ -94,12 +94,14 @@ class RecipeController extends AbstractController
         // Añadir nutrientes
         foreach ($dto->nutrientes as $nutDto) {
             $tipoNutriente = $nutrienteRepo->find($nutDto->tipoId);
-            if ($tipoNutriente) {
-                $recetaNutriente = new RecetaNutriente();
-                $recetaNutriente->setCantidad($nutDto->cantidad);
-                $recetaNutriente->setTipoNutriente($tipoNutriente);
-                $receta->addRecetaNutriente($recetaNutriente);
+            if (!$tipoNutriente) {
+                return $this->json(['code' => 400, 'description' => "El tipo de nutriente con ID {$nutDto->tipoId} no existe."], 400);
             }
+
+            $recetaNutriente = new RecetaNutriente();
+            $recetaNutriente->setCantidad($nutDto->cantidad);
+            $recetaNutriente->setTipoNutriente($tipoNutriente);
+            $receta->addRecetaNutriente($recetaNutriente);
         }
 
         $em->persist($receta);

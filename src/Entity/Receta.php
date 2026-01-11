@@ -35,6 +35,7 @@ class Receta
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['receta:leer'])]
+    #[SerializedName('type')]
     private ?TipoReceta $tipo = null;
 
     // --- RELACIONES INVERSAS (Vitales para validaciones) ---
